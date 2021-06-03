@@ -9,7 +9,7 @@ on:
   push:
     branches: [ main ]
     # Publish `v1.2.3` tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags: [ 'v0.0.1' ]
     pull_request_target:
       branches: [ main ]
 
@@ -39,7 +39,7 @@ jobs:
             docker-compose --file docker-compose.test.yml build
             docker-compose --file docker-compose.test.yml run sut
           else
-            docker build . --file Dockerfile
+            docker build . --file Dockerfile --build-arg PULSAR_VERSION=2.7.2
           fi
 
   # Push image to GitHub Packages.
