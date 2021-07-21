@@ -39,7 +39,7 @@ jobs:
             docker-compose --file docker-compose.test.yml build
             docker-compose --file docker-compose.test.yml run sut
           else
-            docker build . --file Dockerfile --build-arg PULSAR_VERSION=2.7.2
+            docker build . --file Dockerfile --build-arg PULSAR_VERSION=2.8.0
           fi
 
   # Push image to GitHub Packages.
@@ -75,8 +75,10 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          build-args: PULSAR_VERSION=2.7.2
+          build-args: PULSAR_VERSION=2.8.0
           # Don't push on pull requests
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            latest
+            ${{ DOCKER_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
